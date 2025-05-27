@@ -3,6 +3,7 @@
 Self Hosting useful applications for your home
 * Standard Notes: Note Taking application
 * Bitwarden: Password Management application
+* Wallabag: Bookmark application
 
 ## Pre-req
 
@@ -27,6 +28,7 @@ A working Mac machine with the following installed
 * Apache Traffic Server (ATS) for exposing the applications under one domain
 * Standard Notes
 * Bitwarden
+* Wallabag
  
 ### ATS
 * Use ats-alpine container - https://github.com/shukitchan/ats-alpine
@@ -40,6 +42,7 @@ map https://<domain name>/headers http://httpbin.org/headers
 map https://<domain name>/sn/ http://host.docker.internal:3000/
 map https://<domain name>/bw/ http://host.docker.internal:30080/
 map wss://<domain name>/bw/ ws://host.docker.internal:30080/
+map https://<domain name> http://host/docker.internal:20080/
 ```
 * ssl_multicert.config
 ```
@@ -62,3 +65,8 @@ dest_ip=* ssl_cert_name=/work/<domain name>.crt ssl_key_name=/work/<domain name>
 * Upgrade instructions - https://bitwarden.com/help/updating-on-premise/
 * Recommend to export vault before the upgrade
 
+## Wallabag
+* Use redis as the backend storage
+  * `docker run -p 6379:6379 --name redis redis:alpine` 
+* Run wallabag on port 20080 and provide the domain name. We need to also link it with the redis
+  * `docker run -p 20080:80 -e "SYMFONY__ENV_DOMAIN_NAME=https://<domain name>" --link redis:redis wallabag/wallabag`
