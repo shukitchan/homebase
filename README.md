@@ -1,6 +1,6 @@
-# Project WatchTower
+# Homebase
 
-Self Hosting useful applications for your home
+Self Hosting useful applications
 * Standard Notes: Note Taking application
 * Bitwarden: Password Management application
 * Wallabag: Bookmark application
